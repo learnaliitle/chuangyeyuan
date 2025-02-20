@@ -95,10 +95,8 @@ public class PolicyArticleServiceImpl extends ServiceImpl<PolicyArticleMapper, P
                 policyArticle.setPrimaryTagId(policyTag1.getTagId());
             }
         }
-        System.out.println("触发了吗1");
         // 处理视频文件
         if (file != null) {
-            System.out.println("触发了吗2");
             // 定义文件保存路径 - 使用File.separator确保跨平台兼容性
             String uploadDir = "videos";
             File directory = new File(uploadDir);
@@ -376,12 +374,13 @@ public class PolicyArticleServiceImpl extends ServiceImpl<PolicyArticleMapper, P
         return filePath;
     }
 
-    //添加新视频
-
+    //文件。添加新视频
     @Override
     public boolean addPolicyArticle(PolicyArticleDTO policyArticleDTO, MultipartFile file) throws IOException {
-        // 定义文件保存路径
-        String uploadDir = "videos"; // 使用相对路径
+        // 使用配置文件中指定的上传目录
+        String uploadDir = "uploads/videos"; // 在项目外部指定一个路径，例如：/var/videos 或者 /data/videos
+
+        // 如果目录不存在则创建
         File directory = new File(uploadDir);
         if (!directory.exists()) {
             directory.mkdirs();
@@ -391,7 +390,7 @@ public class PolicyArticleServiceImpl extends ServiceImpl<PolicyArticleMapper, P
         if (file != null) {
             // 使用UUID生成唯一的文件名
             String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            // 构建文件保存路径 - 使用File.separator确保正确的路径分隔
+            // 构建文件保存路径
             filePath = uploadDir + File.separator + uniqueFileName;
             // 保存文件
             FileCopyUtils.copy(file.getBytes(), new File(filePath));
@@ -450,6 +449,7 @@ public class PolicyArticleServiceImpl extends ServiceImpl<PolicyArticleMapper, P
         // 保存到数据库
         return save(policyArticle);
     }
+
 
 
     //删除视频

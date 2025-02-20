@@ -6,6 +6,7 @@ import com.ruoyi.system.domain.entity.Industry;
 import com.ruoyi.system.domain.vo.IndustryRankVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IndustryService extends IService<Industry> {
 
@@ -20,4 +21,6 @@ public interface IndustryService extends IService<Industry> {
     IPage<Industry> getIndustriesPage(int page, int size);  // 分页查询行业列表
 
     List<IndustryRankVO> getIndustryRanking(int size);
+
+    Map<Integer, Industry> getAllIndustriesMap();
 }

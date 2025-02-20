@@ -12,6 +12,7 @@ import com.ruoyi.system.domain.vo.EnterpriseVO;
 import com.ruoyi.system.mapper.entrepreneurPark.*;
 import com.ruoyi.system.service.entrepreneurPark.AwardDetailService;
 import com.ruoyi.system.service.entrepreneurPark.EnterpriseService;
+import com.ruoyi.system.service.entrepreneurPark.IndustryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,8 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
     @Autowired
     private AwardDetailService awardDetailService;
 
+    @Autowired
+    private IndustryService industryService;
 
     @Override
     public Page<EnterpriseVO> getEnterprisePage(int page,int  size, String regionName, String industryName, String companyStatus) {
@@ -317,9 +320,12 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
         queryWrapper.isNotNull("coordinate").ne("coordinate", "");
         List<Enterprise> enterprises = list(queryWrapper);
 
+        // 获取 industries 数据的 Map
+        Map<Integer, Industry> industriesMap = industryService.getAllIndustriesMap();
+
         // 将Entity转换为VO
         List<EnterpriseVO> enterpriseVOS = enterprises.stream()
-                .map(this::convertToVO)
+                .map(enterprise -> convertToVO(enterprise, industriesMap))
                 .collect(Collectors.toList());
 
         return enterpriseVOS;
@@ -352,9 +358,14 @@ public class EnterpriseServiceImpl extends ServiceImpl<EnterpriseMapper, Enterpr
         return statusCounts;
     }
 
-    private EnterpriseVO convertToVO(Enterprise enterprise) {
+    private EnterpriseVO convertToVO(Enterprise enterprise, Map<Integer, Industry> industriesMap) {
         EnterpriseVO enterpriseVO = new EnterpriseVO();
         BeanUtils.copyProperties(enterprise, enterpriseVO);
+        Industry industry = industriesMap.get(enterprise.getIndustryId());
+        if (industry != null) {
+            enterpriseVO.setIndustry(industry.getIndustryName());
+            // 其他行业相关的属性设置...
+        }
         return enterpriseVO;
     }
 

@@ -36,7 +36,11 @@
    <groupId>org.quartz-scheduler</groupId>
    <artifactId>quartz</artifactId>
 </dependency>
-
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>7.1.0</version>
+        </dependency>
        <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>

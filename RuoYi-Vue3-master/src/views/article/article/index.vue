@@ -459,7 +459,7 @@ function handleAddNew() {
     mdContent.value = '';
   }
 }
-
+//文件路径
 function handleUpdate(row) {
   reset();
   if (row && row.articleId) {
@@ -472,14 +472,13 @@ function handleUpdate(row) {
         };
 
         if (form.value.videoUrl) {
-          form.value.videoUrl = "http://118.31.112.72:8191/" + form.value.videoUrl;
+          form.value.videoUrl = "http://localhost:8091/" + form.value.videoUrl;
         }
         console.log(" form.value.videoUrl", form.value.videoUrl)
 
 
         // 更新 articleContent，这将触发子组件的更新
         articleContent.value = form.value.content;
-        console.log("articleContent.value",articleContent.value)
         showEditForm.value = true;
         isEditing.value = true;
       } else {

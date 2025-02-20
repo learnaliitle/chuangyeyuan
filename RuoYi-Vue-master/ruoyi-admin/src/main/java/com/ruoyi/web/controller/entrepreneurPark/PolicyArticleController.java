@@ -26,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/policy-articles")
 @Api(tags = "扶持政策文章管理")
+@CrossOrigin
 public class PolicyArticleController {
 
     @Autowired

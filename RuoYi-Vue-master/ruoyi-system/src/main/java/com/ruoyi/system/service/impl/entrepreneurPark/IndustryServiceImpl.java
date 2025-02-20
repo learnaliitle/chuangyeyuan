@@ -96,4 +96,11 @@ public class IndustryServiceImpl extends ServiceImpl<IndustryMapper, Industry> i
         return topIndustries;
     }
 
+    @Override
+    public Map<Integer, Industry> getAllIndustriesMap() {
+        List<Industry> industries = list();
+        return industries.stream()
+                .collect(Collectors.toMap(Industry::getIndustryId, industry -> industry));
+    }
+
 }

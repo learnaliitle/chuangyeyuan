@@ -60,3 +60,5 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+    resources:
+        static-locations: file:D:/WHLProject/创业园项目最新/新建文件夹/chuangyeyuan/RuoYi-Vue-master/videos/
